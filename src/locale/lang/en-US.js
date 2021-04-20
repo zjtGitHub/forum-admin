@@ -43,7 +43,8 @@ export default {
   org_tree_page: 'Org Tree',
   drag_drawer_page: 'Draggable Drawer',
   tree_select_page: 'Tree Selector',
-  article_managment: 'Article Managment',
-  content_managment: 'Content Managment',
-  tags_managment: 'Tags Managment'
+  article_management: 'Article Management',
+  content_management: 'Content Management',
+  tags_management: 'Tags Management',
+  user_management: 'User Management'
 }
