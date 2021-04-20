@@ -2,10 +2,24 @@
   <div>
     <div v-if="searchable && searchPlace === 'top'" class="search-con search-con-top">
       <Select v-model="searchKey" class="search-col">
-        <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+        <template v-for="item in columns">
+          <Option
+            v-if="item.key !== 'handle'"
+            :value="item.key"
+            :key="`search-col-${item.key}`"
+          >{{ item.title }}</Option>
+        </template>
       </Select>
-      <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-      <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+      <Input
+        @on-change="handleClear"
+        clearable
+        placeholder="输入关键字搜索"
+        class="search-input"
+        v-model="searchValue"
+      />
+      <Button @click="handleSearch" class="search-btn" type="primary">
+        <Icon type="search" />&nbsp;&nbsp;搜索
+      </Button>
     </div>
     <Table
       ref="tablesMain"
@@ -37,13 +51,36 @@
       <slot name="header" slot="header"></slot>
       <slot name="footer" slot="footer"></slot>
       <slot name="loading" slot="loading"></slot>
+      <template slot-scope="{ row, index, column }" slot="action">
+        <Icon
+          type="md-build"
+          size="22"
+          style="margin-right: 5px;"
+          @click.stop="editRow(row, index)"
+          v-if="!column.options || column.options.includes('edit')"
+        ></Icon>
+        <Icon
+          type="md-trash"
+          size="22"
+          @click.stop="removeRow(row, index)"
+          v-if="!column.options || column.options.includes('delete')"
+        ></Icon>
+      </template>
     </Table>
     <div v-if="searchable && searchPlace === 'bottom'" class="search-con search-con-top">
       <Select v-model="searchKey" class="search-col">
-        <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+        <template v-for="item in columns">
+          <Option
+            v-if="item.key !== 'handle'"
+            :value="item.key"
+            :key="`search-col-${item.key}`"
+          >{{ item.title }}</Option>
+        </template>
       </Select>
-      <Input placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-      <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+      <Input placeholder="输入关键字搜索" class="search-input" v-model="searchValue" />
+      <Button class="search-btn" type="primary">
+        <Icon type="search" />&nbsp;&nbsp;搜索
+      </Button>
     </div>
     <a id="hrefToExportTable" style="display: none;width: 0px;height: 0px;"></a>
   </div>
@@ -256,6 +293,12 @@ export default {
     },
     onExpand (row, status) {
       this.$emit('on-expand', row, status)
+    },
+    editRow (row, index) {
+      this.$emit('on-row-edit', row, index)
+    },
+    removeRow (row, index) {
+      this.$emit('on-row-remove', row, index)
     }
   },
   watch: {

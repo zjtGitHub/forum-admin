@@ -29,11 +29,12 @@ export default {
     ]),
     handleSubmit (option) {
       this.handleLogin(option).then(res => {
-        console.log(res, 3232)
+        if (res) {
+          this.$router.push({
+            name: this.$config.homeName
+          })
+        }
         // this.getUserInfo().then(res => {
-        this.$router.push({
-          name: this.$config.homeName
-        })
       })
       // })
     }
