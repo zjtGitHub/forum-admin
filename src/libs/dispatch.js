@@ -16,6 +16,7 @@ class Dispatch {
     } else {
       args.push(dataset)
     }
+    console.log(this, 66666)
     return request.apply(this, args)
   }
 }
